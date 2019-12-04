@@ -54,8 +54,9 @@ public class SettingView extends JPanel implements ActionListener{
 
 		// setSizePanel
 		setSizePanel = new JPanel();
-		setSizePanel.setLayout(new FlowLayout());
+		setSizePanel.setLayout(new BoxLayout(setSizePanel, BoxLayout.Y_AXIS));
 		setSizeSlider = new JSlider(10, 500);
+		JLabel setSizeLabel = new JLabel("Size of the board(10 to 500): ");
 	    Hashtable<Integer, JLabel> table1 = new Hashtable<Integer, JLabel>();
 	    table1.put (10, new JLabel("10"));
 	    table1.put (100, new JLabel("100"));
@@ -67,6 +68,7 @@ public class SettingView extends JPanel implements ActionListener{
 	    setSizeSlider.setLabelTable(table1);
 	    setSizeSlider.setValue(50);
 
+	    setSizePanel.add(setSizeLabel);
 		setSizePanel.add(setSizeSlider);
 		this.add(setSizePanel);
 		
