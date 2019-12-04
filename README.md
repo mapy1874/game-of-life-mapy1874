@@ -1,6 +1,6 @@
 # COMP401 A8 - *mapy1874's Game Of Life*
 
-**[mapy1874's Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)** is an is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
+**mapy1874's [Game Of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)** is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
 
 Time spent: **15** hours spent in total
 
@@ -32,6 +32,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 MVC lecture code that enlightened me to finish all functionality of the app.
 - Their is no "drag components" part in this app. I find the development is not as efficient as using Android Studio (dragging all components, using XML). 
 - I have a deeper understanding of MVC now. I cannot understand those listeners in Android development and why views are created seperately. Now that makes a lot of sense. Design pattern like observer is super useful in this project.
+- Theory and practice, both are important for this app.
 
 ## Application Framework used
 
