@@ -73,8 +73,8 @@ public class SettingView extends JPanel implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 		        if (!setSizeSlider.getValueIsAdjusting()) {
-					reminderLabel.setText("Size of the board£º " +setSizeSlider.getValue()
-					+ "*"+setSizeSlider.getValue());
+					reminderLabel.setText("<html>Size of the board£º " +setSizeSlider.getValue()
+					+ "*"+setSizeSlider.getValue()+".<br>Click APPLY button to apply.</html>");
 		        }				
 			}
 	    });
@@ -101,7 +101,8 @@ public class SettingView extends JPanel implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 		        if (!lowBirthThresholdSlider.getValueIsAdjusting()) {
-					reminderLabel.setText("Low Birth Threshold£º " +lowBirthThresholdSlider.getValue());
+					reminderLabel.setText("<html>Low Birth Threshold£º " +lowBirthThresholdSlider.getValue()
+					+".<br>Click APPLY button to apply.</html>");
 		        }				
 			}
 	    });
@@ -114,7 +115,8 @@ public class SettingView extends JPanel implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 		        if (!highBirthThresholdSlider.getValueIsAdjusting()) {
-					reminderLabel.setText("High Birth Threshold£º " +highBirthThresholdSlider.getValue());
+					reminderLabel.setText("<html>High Birth Threshold£º " +highBirthThresholdSlider.getValue()
+					+".<br>Click APPLY button to apply.</html>");
 		        }				
 			}
 	    });
@@ -128,7 +130,8 @@ public class SettingView extends JPanel implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 		        if (!lowSurviveThresholdSlider.getValueIsAdjusting()) {
-					reminderLabel.setText("Low Survive Threshold£º " +lowSurviveThresholdSlider.getValue());
+					reminderLabel.setText("<html>Low Survive Threshold£º " +lowSurviveThresholdSlider.getValue()
+					+".<br>Click APPLY button to apply.</html>");
 		        }				
 			}
 	    });
@@ -141,7 +144,8 @@ public class SettingView extends JPanel implements ActionListener{
 			@Override
 			public void stateChanged(ChangeEvent e) {
 		        if (!highSurviveThresholdSlider.getValueIsAdjusting()) {
-					reminderLabel.setText("High Survive Threshold£º " +highSurviveThresholdSlider.getValue());
+					reminderLabel.setText("<html>High Survive Threshold£º " +highSurviveThresholdSlider.getValue()
+					+".<br>Click APPLY button to apply.</html>");
 		        }				
 			}
 	    });
@@ -198,14 +202,12 @@ public class SettingView extends JPanel implements ActionListener{
 		        if (!delaySlider.getValueIsAdjusting()) {
 					for (SettingViewListener l : listeners) {
 						l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
-						if (startToggleButton.isSelected()) {
 							reminderLabel.setText("<html> Delay: " 
 									+delaySlider.getValue()+" ms</html>");
 						}
 						System.out.println("SettingView: stateChanged: stateChanged  " +setSizeSlider.getValue());
 					}
 		        }				
-			}
 	    });
 
 
