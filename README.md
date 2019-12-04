@@ -51,4 +51,4 @@ MVC lecture code that enlightened me to finish all functionality of the app.
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
-    limitations under the License.## User Stories
+    limitations under the License.
