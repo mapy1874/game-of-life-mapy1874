@@ -45,7 +45,7 @@ public class SettingView extends JPanel implements ActionListener{
 	private JButton advanceGameButton;
 	private JButton randomlyGenerateButton;
 	private JButton restartButton;
-	
+	private JLabel reminderLabel;
 	private List<SettingViewListener> listeners;
 	public SettingView() {
 		//TODO: add text to make user know the next step
@@ -156,6 +156,11 @@ public class SettingView extends JPanel implements ActionListener{
 		this.add(advanceGameButton);
 		this.add(randomlyGenerateButton);
 		this.add(restartButton);
+		
+		reminderLabel = new JLabel();
+		reminderLabel.setText("<html>Please randomly generate after applying<br>resizing to see the resizing functionality</html>");
+		reminderLabel.setAlignmentX(CENTER_ALIGNMENT);
+		this.add(reminderLabel);
 		// all related button will be listened and have related actionlistener
 		this.addActionListener();
 		this.setActionCommand();
@@ -198,6 +203,7 @@ public class SettingView extends JPanel implements ActionListener{
 			// advance the game to the next level
 			for (SettingViewListener l : listeners) {
 				l.handleAdvanceGame();
+				reminderLabel.setText("Advance the game successfully!");
 				System.out.println("SettingView: actionPerformed: advance");
 			}
 			break;
@@ -212,18 +218,27 @@ public class SettingView extends JPanel implements ActionListener{
 						highSurviveThresholdSlider.getValue(),
 						delaySlider.getValue(),
 						torusToggleButton.isSelected()));
+				reminderLabel.setText("<html>Size = "+setSizeSlider.getValue()
+				+ ",         lbt = " + lowBirthThresholdSlider.getValue()+ 
+						",       hbt = " + highBirthThresholdSlider.getValue()+
+						",       lst = "+ lowSurviveThresholdSlider.getValue()+",<br>"
+						+ "hst = " + highSurviveThresholdSlider.getValue()+
+						",         torus mode = " + torusToggleButton.isSelected()+ "</html>");
+
 				System.out.println("SettingView: actionPerformed: apply  " +setSizeSlider.getValue());
 			}
 			break;
 		case "random":
 			for (SettingViewListener l : listeners) {
 				l.handleRandomlyGenerate();
+				reminderLabel.setText("Randomly generated successfully!");
 				System.out.println("SettingView: actionPerformed: random  " +setSizeSlider.getValue());
 			}
 			break;
 		case "restart":
 			for (SettingViewListener l : listeners) {
 				l.handleRestart();
+				reminderLabel.setText("Clear the game successfully!");
 				System.out.println("SettingView: actionPerformed: handleRestart  " +setSizeSlider.getValue());
 			}
 			break;
@@ -231,6 +246,12 @@ public class SettingView extends JPanel implements ActionListener{
 		case "auto start":
 			for (SettingViewListener l : listeners) {
 				l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+				if (startToggleButton.isSelected()) {
+					reminderLabel.setText("<html> Auto start the game successfully! <br>Delay: " 
+							+delaySlider.getValue()+" ms</html>");
+				} else {
+					reminderLabel.setText("Stop the game successfully!");
+				}
 				System.out.println("SettingView: actionPerformed: handleRestart  " +setSizeSlider.getValue());
 			}
 			break;

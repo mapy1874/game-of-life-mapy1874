@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 
-public class BoardView extends JPanel implements MouseListener{
+public class BoardView extends JPanel implements MouseListener, MouseMotionListener{
 	private static final int DEFAULT_SCREEN_WIDTH = 500;
 	private static final int DEFAULT_SCREEN_HEIGHT = 500;
 	
@@ -97,6 +98,12 @@ public class BoardView extends JPanel implements MouseListener{
 		// TODO: change the cell size later
 		fireEvent(new BoardViewEvent(x, y));
 	}
+	
+    @Override
+    public void mouseDragged(MouseEvent me) {
+        System.out.println("mouseDragged");
+        mouseClicked(me);
+    }
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -112,7 +119,7 @@ public class BoardView extends JPanel implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -126,6 +133,12 @@ public class BoardView extends JPanel implements MouseListener{
 		System.out.println("BoardView: paintBoardView");
 		//this.paintComponent(this.getGraphics());
 		this.repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
