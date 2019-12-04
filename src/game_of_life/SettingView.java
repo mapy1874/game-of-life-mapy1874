@@ -48,6 +48,7 @@ public class SettingView extends JPanel implements ActionListener{
 	
 	private List<SettingViewListener> listeners;
 	public SettingView() {
+		//TODO: add text to make user know the next step
 		listeners = new ArrayList<SettingViewListener>();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -64,7 +65,7 @@ public class SettingView extends JPanel implements ActionListener{
 	    table1.put (500, new JLabel("500"));
 	    setSizeSlider.setPaintLabels(true);
 	    setSizeSlider.setLabelTable(table1);
-	    setSizeSlider.setValue(10);
+	    setSizeSlider.setValue(50);
 
 		JLabel sizeLabel = new JLabel("Current size: 10*10");
 		setSizePanel.add(setSizeSlider);
@@ -149,7 +150,7 @@ public class SettingView extends JPanel implements ActionListener{
 		advanceGameButton.setAlignmentX(CENTER_ALIGNMENT);
 		randomlyGenerateButton = new JButton("Randomly generate live cells");
 		randomlyGenerateButton.setAlignmentX(CENTER_ALIGNMENT);
-		restartButton = new JButton("Restart");
+		restartButton = new JButton("Clear");
 		restartButton.setAlignmentX(CENTER_ALIGNMENT);
 		this.add(applyParasButton);
 		this.add(advanceGameButton);
@@ -169,12 +170,6 @@ public class SettingView extends JPanel implements ActionListener{
 		randomlyGenerateButton.setActionCommand("random");
 	}
 
-	private void fireEvent(SettingViewEvent settingViewEvent) {
-		for (SettingViewListener l : listeners) {
-			l.handleSettingViewEvent(settingViewEvent);
-			System.out.println("BoardView: fireEvent");
-		}
-	}
 	
 	public void addSettingViewListener(SettingViewListener l) {
 		listeners.add(l);
@@ -205,6 +200,39 @@ public class SettingView extends JPanel implements ActionListener{
 				l.handleAdvanceGame();
 				System.out.println("SettingView: actionPerformed: advance");
 			}
+			break;
+		case "apply":
+			// extract the parameters and change the game
+			for (SettingViewListener l : listeners) {
+				l.handleSettingViewEvent(new SettingViewEvent(
+						setSizeSlider.getValue(),setSizeSlider.getValue(),
+						lowBirthThresholdSlider.getValue(), 
+						highBirthThresholdSlider.getValue(),
+						lowSurviveThresholdSlider.getValue(),
+						highSurviveThresholdSlider.getValue(),
+						delaySlider.getValue()));
+				System.out.println("SettingView: actionPerformed: apply  " +setSizeSlider.getValue());
+			}
+			break;
+		case "random":
+			for (SettingViewListener l : listeners) {
+				l.handleRandomlyGenerate(new SettingViewEvent(
+						setSizeSlider.getValue(),setSizeSlider.getValue(),
+						lowBirthThresholdSlider.getValue(), 
+						highBirthThresholdSlider.getValue(),
+						lowSurviveThresholdSlider.getValue(),
+						highSurviveThresholdSlider.getValue(),
+						delaySlider.getValue()));
+				System.out.println("SettingView: actionPerformed: random  " +setSizeSlider.getValue());
+			}
+			break;
+		case "restart":
+			for (SettingViewListener l : listeners) {
+				l.handleRestart();
+				System.out.println("SettingView: actionPerformed: handleRestart  " +setSizeSlider.getValue());
+			}
+			break;
+
 
 		}
 		

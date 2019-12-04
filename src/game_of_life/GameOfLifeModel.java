@@ -27,6 +27,19 @@ public class GameOfLifeModel {
 	public GameOfLifeModel(int width, int height, 
 			int lowBirthThreshold, int highBirthThreshold ,
 			int lowSurviveThreshold, int highSurviveThreshold) {
+		observers = new ArrayList<GameOfLifeObserver>();
+		setModel(width, height, 
+				lowBirthThreshold, highBirthThreshold ,
+				lowSurviveThreshold, highSurviveThreshold);
+	}
+	
+	public GameOfLifeModel(int width, int height) {
+		this(width, height, 3, 3, 2, 3);
+	}
+	
+	public void setModel(int width, int height, 
+			int lowBirthThreshold, int highBirthThreshold ,
+			int lowSurviveThreshold, int highSurviveThreshold) {
 		// TODO: Controller will verify the value of each parameter
 		_width = width;
 		_height = height;
@@ -39,12 +52,7 @@ public class GameOfLifeModel {
 		
 		// all cells are dead at first
 		_cells = new boolean[_width][_height];
-		
-		observers = new ArrayList<GameOfLifeObserver>();
-	}
-	
-	public GameOfLifeModel(int width, int height) {
-		this(width, height, 3, 3, 2, 3);
+		notifyObservers();
 	}
 	
 	// return the status of the next generation

@@ -30,22 +30,27 @@ public class GameOfLifeController implements BoardViewListener, SettingViewListe
 	}
 	@Override
 	public void handleSettingViewEvent(SettingViewEvent e) {
-		// TODO Auto-generated method stub
-		
+		// the model and the board need to be reconstruct
+		System.out.println("GameOfLifeController: handleSettingViewEvent");
+		boardView.setView(e.getWidth(), e.getHeight());
+		model.setModel(e.getWidth(), e.getHeight(),
+				e.getLowBirthThreshold(), e.getHighBirthThreshold(),
+				e.getLowSurviveThreshold(), e.getHighSurviveThreshold());
 	}
+	
 	@Override
 	public void handleAdvanceGame() {
 		model.nextGen();
 	}
 	@Override
 	public void handleRandomlyGenerate(SettingViewEvent e) {
-		// TODO Auto-generated method stub
-		
+		model.randomlyGenerate();
 	}
+
 	@Override
-	public void handleRestart(SettingViewEvent e) {
+	public void handleRestart() {
 		// TODO Auto-generated method stub
-		
+		model.clear();
 	}
 
 }

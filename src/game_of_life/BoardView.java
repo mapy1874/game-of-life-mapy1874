@@ -24,23 +24,26 @@ public class BoardView extends JPanel implements MouseListener{
 	
 	private int _width;
 	private int _height;
+	private int _cellSize;
 	private boolean[][] _cells;
 	private List<BoardViewListener> listeners;
 
 
 	public BoardView(int width, int height) {
 		setView(width, height);
-	}
-	
-	private void setView(int width, int height) {
-		this.setBackground(Color.WHITE);
-		this.setPreferredSize(new Dimension(DEFAULT_CELL_SIZE*width,
-				DEFAULT_CELL_SIZE*height));
-		_width = width;
-		_height = height;
-		_cells = new boolean[_width][_height];
 		listeners = new ArrayList<BoardViewListener>();
 		this.addMouseListener(this);
+	}
+	
+	public void setView(int width, int height) {
+		this.setBackground(Color.WHITE);
+		_width = width;
+		_height = height;
+		_cellSize = DEFAULT_SCREEN_WIDTH/_width;
+		this.setPreferredSize(new Dimension(_cellSize*_width,
+				_cellSize*_width));
+		_cells = new boolean[_width][_height];
+		//repaint();
 		System.out.println(_cells[0][0]);		
 	}
 
@@ -56,7 +59,7 @@ public class BoardView extends JPanel implements MouseListener{
 	    	for (int y = 0; y < _height; y++) {
 	    		if (_cells[x][y]) {// if the cell is alive, paint it
 	    			System.out.println("BoardView: paintComponent painting " + x +"," +y);
-	    			g2d.fillRect(x*DEFAULT_CELL_SIZE, y*DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE, DEFAULT_CELL_SIZE);
+	    			g2d.fillRect(x*_cellSize, y*_cellSize, _cellSize, _cellSize);
 	    		}
 	    	}
 	    }
@@ -82,8 +85,8 @@ public class BoardView extends JPanel implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// convert the coord to the position in array
-		int x = e.getX()/DEFAULT_CELL_SIZE;
-		int y = e.getY()/DEFAULT_CELL_SIZE;
+		int x = e.getX()/_cellSize;
+		int y = e.getY()/_cellSize;
 		if (x == _width) { //  hit the last pixel, so the x is _width-1
 			x--;
 		}
