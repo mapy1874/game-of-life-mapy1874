@@ -28,8 +28,10 @@ Here's a walkthrough of implemented user stories:
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
-- I did not want to do the extra credit at first due to JSpot's implementation costs a lot of time and I no little about MVC. It was KMP'S 
+- I did not want to do the extra credit at first due to JSpot's implementation works not good when the size becom larger and I have no little about MVC. It was KMP'S 
 MVC lecture code that enlightened me to finish all functionality of the app.
+- Their is no "drag components" part in this app. I find the development is not as efficient as using Android Studio (dragging all components, using XML). 
+- I have a deeper understanding of MVC now. I cannot understand those listeners in Android development and why views are created seperately. Now that makes a lot of sense. Design pattern like observer is super useful in this project.
 
 ## Application Framework used
 
