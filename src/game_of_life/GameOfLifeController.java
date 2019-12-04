@@ -9,9 +9,9 @@ public class GameOfLifeController implements BoardViewListener, GameOfLifeObserv
 	public GameOfLifeController(GameOfLifeModel model, 	BoardView boardView,
 			SettingView settingView) {
 		this.boardView = boardView;
-		this.settingView = settingView;
+		this.settingView = settingView; 
 		this.model = model;
-		
+		//  add
 		boardView.addBoardViewListener(this);
 		model.addObserver(this);
 	}
