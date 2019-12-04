@@ -5,4 +5,5 @@ public interface SettingViewListener {
 	void handleAdvanceGame();
 	void handleRandomlyGenerate();
 	void handleRestart();
+	void handleAutoStart(boolean isAutoStart, int delay);
 }

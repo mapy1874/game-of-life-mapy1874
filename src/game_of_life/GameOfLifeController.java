@@ -1,6 +1,9 @@
 package game_of_life;
 
-public class GameOfLifeController implements BoardViewListener, SettingViewListener, GameOfLifeObserver {
+import javax.swing.SwingUtilities;
+
+public class GameOfLifeController implements BoardViewListener, SettingViewListener,
+				GameOfLifeObserver, Runnable {
 
 	BoardView boardView;
 	SettingView settingView;
@@ -49,8 +52,31 @@ public class GameOfLifeController implements BoardViewListener, SettingViewListe
 
 	@Override
 	public void handleRestart() {
-		// TODO Auto-generated method stub
 		model.clear();
+	}
+	private boolean _isAutoStart;
+	private int _delay;
+
+	@Override
+	public void handleAutoStart(boolean isAutoStart, int delay) {
+		_isAutoStart = isAutoStart;
+		_delay = delay;
+		if (_isAutoStart) { // need to proceed the game automatically
+			new Thread(this).start();
+		} else {// do nothing
+		}
+	}
+	@Override
+	public void run() {
+		while(_isAutoStart) {
+				model.nextGen();
+				try {
+					Thread.sleep(_delay);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Controller: run");				
+		}
 	}
 
 }

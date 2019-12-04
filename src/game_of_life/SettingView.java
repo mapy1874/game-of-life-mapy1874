@@ -110,10 +110,22 @@ public class SettingView extends JPanel implements ActionListener{
 		lifeDeathPanel.add(highSurviveThresholdSlider);
 		this.add(lifeDeathPanel);
 		
+
+		JPanel togglePanel = new JPanel();
+		togglePanel.setLayout(new FlowLayout());
+		torusToggleButton = new JToggleButton("Torus");
+		torusToggleButton.setAlignmentX(CENTER_ALIGNMENT);
+		togglePanel.add(torusToggleButton);
+		this.add(togglePanel);
+		
+		applyParasButton = new JButton("Apply the above settings");
+		applyParasButton.setAlignmentX(CENTER_ALIGNMENT);
+		this.add(applyParasButton);
+
+		
 		// startStopPanel
 		startStopPanel = new JPanel();
 		startStopPanel.setLayout(new BoxLayout(startStopPanel, BoxLayout.Y_AXIS));
-		startToggleButton = new JToggleButton("Auto start");
 	    Hashtable<Integer, JLabel> table2 = new Hashtable<Integer, JLabel>();
 	    table2.put (10, new JLabel("10"));
 	    table2.put (200, new JLabel("200"));
@@ -129,27 +141,18 @@ public class SettingView extends JPanel implements ActionListener{
 
 		startStopPanel.add(new JLabel("Delay(10-1000ms): "));
 		startStopPanel.add(delaySlider);
+		startToggleButton = new JToggleButton("Auto start");
+		startToggleButton.setAlignmentX(CENTER_ALIGNMENT);
+		startStopPanel.add(startToggleButton);
 		this.add(startStopPanel);
 
-		JPanel togglePanel = new JPanel();
-		togglePanel.setLayout(new FlowLayout());
-		torusToggleButton = new JToggleButton("Torus mode");
-		startToggleButton.setAlignmentX(CENTER_ALIGNMENT);
-		torusToggleButton.setAlignmentX(CENTER_ALIGNMENT);
-		togglePanel.add(startToggleButton);
-		togglePanel.add(torusToggleButton);
-		this.add(togglePanel);
-		
 		// remaining button
-		applyParasButton = new JButton("Apply the above settings");
-		applyParasButton.setAlignmentX(CENTER_ALIGNMENT);
 		advanceGameButton = new JButton("Advance game to next generation");
 		advanceGameButton.setAlignmentX(CENTER_ALIGNMENT);
 		randomlyGenerateButton = new JButton("Randomly generate live cells");
 		randomlyGenerateButton.setAlignmentX(CENTER_ALIGNMENT);
 		restartButton = new JButton("Clear");
 		restartButton.setAlignmentX(CENTER_ALIGNMENT);
-		this.add(applyParasButton);
 		this.add(advanceGameButton);
 		this.add(randomlyGenerateButton);
 		this.add(restartButton);
@@ -225,6 +228,12 @@ public class SettingView extends JPanel implements ActionListener{
 			}
 			break;
 
+		case "auto start":
+			for (SettingViewListener l : listeners) {
+				l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+				System.out.println("SettingView: actionPerformed: handleRestart  " +setSizeSlider.getValue());
+			}
+			break;
 
 		}
 		
