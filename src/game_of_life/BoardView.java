@@ -29,6 +29,10 @@ public class BoardView extends JPanel implements MouseListener{
 
 
 	public BoardView(int width, int height) {
+		setView(width, height);
+	}
+	
+	private void setView(int width, int height) {
 		this.setBackground(Color.WHITE);
 		this.setPreferredSize(new Dimension(DEFAULT_CELL_SIZE*width,
 				DEFAULT_CELL_SIZE*height));
@@ -37,9 +41,9 @@ public class BoardView extends JPanel implements MouseListener{
 		_cells = new boolean[_width][_height];
 		listeners = new ArrayList<BoardViewListener>();
 		this.addMouseListener(this);
-		System.out.println(_cells[0][0]);
+		System.out.println(_cells[0][0]);		
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics g) {    
 		// Super class paintComponent will take care of 

@@ -5,7 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,13 +23,12 @@ public class SettingView extends JPanel implements ActionListener{
 	public static final int DEFAULT_HIGH_BIRTH_THRESHOLD = 3;
 	public static final int DEFAULT_LOW_SURVIVE_THRESHOLD = 2;
 	public static final int DEFAULT_HIGH_SURVIVE_THRESHOLD = 3;
-
+	public static final int DEFAULT_DELAY = 10;
 	private JPanel setSizePanel;
 	private JSlider setSizeSlider;
 	
 	
 	private JPanel lifeDeathPanel;
-	private JButton lifeDeathButton;
 	private JSlider lowBirthThresholdSlider;
 	private JSlider highBirthThresholdSlider;
 	private JSlider lowSurviveThresholdSlider;
@@ -36,21 +37,23 @@ public class SettingView extends JPanel implements ActionListener{
 	
 	private JPanel startStopPanel;
 	private JToggleButton startToggleButton;
-	private JFormattedTextField setDelayTextField;
-	private JButton setDelayButton;
+	private JSlider delaySlider;
 	
+	private JToggleButton torusToggleButton;
+	
+	private JButton applyParasButton;
 	private JButton advanceGameButton;
 	private JButton randomlyGenerateButton;
-	private JToggleButton torusToggleButton;
-	private JButton resetButton;
+	private JButton restartButton;
+	
+	private List<SettingViewListener> listeners;
 	public SettingView() {
-		
+		listeners = new ArrayList<SettingViewListener>();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		// setSizePanel
 		setSizePanel = new JPanel();
 		setSizePanel.setLayout(new FlowLayout());
-		integerFormatter(10, 500);
 		setSizeSlider = new JSlider(10, 500);
 	    Hashtable<Integer, JLabel> table1 = new Hashtable<Integer, JLabel>();
 	    table1.put (10, new JLabel("10"));
@@ -98,7 +101,6 @@ public class SettingView extends JPanel implements ActionListener{
 		highSurviveThresholdSlider.setLabelTable (table);
 		highSurviveThresholdSlider.setValue(DEFAULT_HIGH_SURVIVE_THRESHOLD);
 
-		lifeDeathButton = new JButton("Set thresholds");
 		lifeDeathPanel.add(new JLabel("Low birth threshold: "));
 		lifeDeathPanel.add(lowBirthThresholdSlider);
 		lifeDeathPanel.add(new JLabel("High birth threshold: "));
@@ -107,59 +109,106 @@ public class SettingView extends JPanel implements ActionListener{
 		lifeDeathPanel.add(lowSurviveThresholdSlider);
 		lifeDeathPanel.add(new JLabel("High survive threshold: "));
 		lifeDeathPanel.add(highSurviveThresholdSlider);
-		lifeDeathPanel.add(lifeDeathButton);
 		this.add(lifeDeathPanel);
 		
 		// startStopPanel
 		startStopPanel = new JPanel();
-		startStopPanel.setLayout(new FlowLayout());
+		startStopPanel.setLayout(new BoxLayout(startStopPanel, BoxLayout.Y_AXIS));
 		startToggleButton = new JToggleButton("Auto start");
-		setDelayTextField = new JFormattedTextField(integerFormatter(10, 1000));
-		setDelayTextField.setColumns(4);
-		setDelayButton = new JButton("Set delay");
+	    Hashtable<Integer, JLabel> table2 = new Hashtable<Integer, JLabel>();
+	    table2.put (10, new JLabel("10"));
+	    table2.put (200, new JLabel("200"));
+	    table2.put (400, new JLabel("400"));
+	    table2.put (600, new JLabel("600"));
+	    table2.put (800, new JLabel("800"));
+	    table2.put (1000, new JLabel("1000"));
+
+	    delaySlider = new JSlider(10, 1000);
+	    delaySlider.setPaintLabels(true);
+	    delaySlider.setLabelTable (table2);
+	    delaySlider.setValue(DEFAULT_DELAY);
+
 		startStopPanel.add(new JLabel("Delay(10-1000ms): "));
-		startStopPanel.add(setDelayTextField);
-		startStopPanel.add(setDelayButton);
-		startStopPanel.add(startToggleButton);
+		startStopPanel.add(delaySlider);
 		this.add(startStopPanel);
 
+		JPanel togglePanel = new JPanel();
+		togglePanel.setLayout(new FlowLayout());
+		torusToggleButton = new JToggleButton("Torus mode");
+		startToggleButton.setAlignmentX(CENTER_ALIGNMENT);
+		torusToggleButton.setAlignmentX(CENTER_ALIGNMENT);
+		togglePanel.add(startToggleButton);
+		togglePanel.add(torusToggleButton);
+		this.add(togglePanel);
+
+
 		// remaining button
+		applyParasButton = new JButton("Apply the above settings");
+		applyParasButton.setAlignmentX(CENTER_ALIGNMENT);
 		advanceGameButton = new JButton("Advance game to next generation");
 		advanceGameButton.setAlignmentX(CENTER_ALIGNMENT);
 		randomlyGenerateButton = new JButton("Randomly generate live cells");
 		randomlyGenerateButton.setAlignmentX(CENTER_ALIGNMENT);
-		torusToggleButton = new JToggleButton("Torus mode");
-		torusToggleButton.setAlignmentX(CENTER_ALIGNMENT);
-		resetButton = new JButton("Reset");
-		resetButton.setAlignmentX(CENTER_ALIGNMENT);
+		restartButton = new JButton("Restart");
+		restartButton.setAlignmentX(CENTER_ALIGNMENT);
+		this.add(applyParasButton);
 		this.add(advanceGameButton);
 		this.add(randomlyGenerateButton);
-		this.add(torusToggleButton);
-		this.add(resetButton);
-		
+		this.add(restartButton);
+		// all related button will be listened and have related actionlistener
+		this.addActionListener();
+		this.setActionCommand();
 	}
 	
-	// generated a numberformatter to restrict the input of the 
-	// textfield
-	private NumberFormatter integerFormatter(int min, int max) {
-	    NumberFormat format = NumberFormat.getInstance();
-	    NumberFormatter formatter = new NumberFormatter(format);
-	    formatter.setValueClass(Integer.class);
-	    formatter.setMinimum(min);
-	    formatter.setMaximum(max);
-//	    formatter.setAllowsInvalid(false);
-	    return formatter;
+	private void setActionCommand() {
+		restartButton.setActionCommand("restart");
+		startToggleButton.setActionCommand("auto start");
+		torusToggleButton.setActionCommand("torus");
+		applyParasButton.setActionCommand("apply");
+		advanceGameButton.setActionCommand("advance");
+		randomlyGenerateButton.setActionCommand("random");
+	}
+
+	private void fireEvent(SettingViewEvent settingViewEvent) {
+		for (SettingViewListener l : listeners) {
+			l.handleSettingViewEvent(settingViewEvent);
+			System.out.println("BoardView: fireEvent");
+		}
+	}
+	
+	public void addSettingViewListener(SettingViewListener l) {
+		listeners.add(l);
+	}
+	
+	public void removeSettingViewListener(SettingViewListener l) {
+		listeners.remove(l);
 	}
 
 	public void addActionListener() {
-		resetButton.addActionListener(this);
-		
+		startToggleButton.addActionListener(this);
+		torusToggleButton.addActionListener(this);
+		applyParasButton.addActionListener(this);
+		advanceGameButton.addActionListener(this);
+		randomlyGenerateButton.addActionListener(this);
+		restartButton.addActionListener(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		String command = e.getActionCommand();
+		System.out.println("SettingView: actionPerformed  " + command);
+		switch(command) {
+		case "advance":
+			// advance the game to the next level
+			for (SettingViewListener l : listeners) {
+				l.handleAdvanceGame();
+				System.out.println("SettingView: actionPerformed: advance");
+			}
+
+		}
 		
 	}
+
 
 }

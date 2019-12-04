@@ -1,6 +1,6 @@
 package game_of_life;
 
-public class GameOfLifeController implements BoardViewListener, GameOfLifeObserver {
+public class GameOfLifeController implements BoardViewListener, SettingViewListener, GameOfLifeObserver {
 
 	BoardView boardView;
 	SettingView settingView;
@@ -13,6 +13,7 @@ public class GameOfLifeController implements BoardViewListener, GameOfLifeObserv
 		this.model = model;
 		//  add
 		boardView.addBoardViewListener(this);
+		settingView.addSettingViewListener(this);
 		model.addObserver(this);
 	}
 	@Override
@@ -26,6 +27,25 @@ public class GameOfLifeController implements BoardViewListener, GameOfLifeObserv
 		// repaint the new board
 		System.out.println("GameOfLifeController: update");
 		boardView.paintBoardView(model.getCells());
+	}
+	@Override
+	public void handleSettingViewEvent(SettingViewEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleAdvanceGame() {
+		model.nextGen();
+	}
+	@Override
+	public void handleRandomlyGenerate(SettingViewEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void handleRestart(SettingViewEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
