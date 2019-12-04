@@ -22,7 +22,7 @@ The following functionality is completed:
 Here's a walkthrough of implemented user stories:
 
 
-<img src='https://github.com/mapy1874/game-of-life-mapy1874/GameOfLifeWalkthrough.gif' title='Video Walkthrough' />
+<img src='https://github.com/mapy1874/game-of-life-mapy1874/blob/master/GameOfLifeWalkthrough.gif' title='Video Walkthrough' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
