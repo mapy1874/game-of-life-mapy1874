@@ -55,6 +55,8 @@ public class BoardView extends JPanel implements MouseListener, MouseMotionListe
 		super.paintComponent(g);
 		System.out.println("BoardView: paintComponent");
 		Graphics2D g2d = (Graphics2D) g.create();
+	    g2d.setColor(Color.BLUE);
+	    g2d.drawRect(0, 0, _cellSize*_width, _cellSize*_height);
 	    g2d.setColor(Color.BLACK);
 	    for (int x = 0; x < _width; x++) {
 	    	for (int y = 0; y < _height; y++) {

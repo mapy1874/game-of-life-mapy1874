@@ -23,7 +23,7 @@ public class SettingView extends JPanel implements ActionListener{
 	public static final int DEFAULT_HIGH_BIRTH_THRESHOLD = 3;
 	public static final int DEFAULT_LOW_SURVIVE_THRESHOLD = 2;
 	public static final int DEFAULT_HIGH_SURVIVE_THRESHOLD = 3;
-	public static final int DEFAULT_DELAY = 10;
+	public static final int DEFAULT_DELAY = 500;
 	private JPanel setSizePanel;
 	private JSlider setSizeSlider;
 	

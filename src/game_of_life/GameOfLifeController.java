@@ -35,6 +35,7 @@ public class GameOfLifeController implements BoardViewListener, SettingViewListe
 	public void handleSettingViewEvent(SettingViewEvent e) {
 		// the model and the board need to be reconstruct
 		System.out.println("GameOfLifeController: handleSettingViewEvent");
+		model.clear();
 		boardView.setView(e.getWidth(), e.getHeight());
 		model.setModel(e.getWidth(), e.getHeight(),
 				e.getLowBirthThreshold(), e.getHighBirthThreshold(),
