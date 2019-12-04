@@ -20,26 +20,28 @@ public class GameOfLifeModel {
 	// the cell live to next gen, by default, the lst = 2, hbt = 3;
 	private int _lowSurviveThreshold;
 	private int _highSurviveThreshold;
-
+	private boolean _isTorus;
+	
 	// about 10% of cell will be alive if we randomly generate the board
 	public static double DEFAULT_ALIVE_PROB = 0.1;
 
 	public GameOfLifeModel(int width, int height, 
 			int lowBirthThreshold, int highBirthThreshold ,
-			int lowSurviveThreshold, int highSurviveThreshold) {
+			int lowSurviveThreshold, int highSurviveThreshold,
+			boolean isTorus) {
 		observers = new ArrayList<GameOfLifeObserver>();
 		setModel(width, height, 
 				lowBirthThreshold, highBirthThreshold ,
-				lowSurviveThreshold, highSurviveThreshold);
+				lowSurviveThreshold, highSurviveThreshold, isTorus);
 	}
 	
 	public GameOfLifeModel(int width, int height) {
-		this(width, height, 3, 3, 2, 3);
+		this(width, height, 3, 3, 2, 3, false);
 	}
 	
 	public void setModel(int width, int height, 
 			int lowBirthThreshold, int highBirthThreshold ,
-			int lowSurviveThreshold, int highSurviveThreshold) {
+			int lowSurviveThreshold, int highSurviveThreshold, boolean isTorus) {
 		// TODO: Controller will verify the value of each parameter
 		_width = width;
 		_height = height;
@@ -52,6 +54,7 @@ public class GameOfLifeModel {
 		
 		// all cells are dead at first
 		_cells = new boolean[_width][_height];
+		_isTorus = isTorus; 
 		notifyObservers();
 	}
 	
@@ -64,7 +67,7 @@ public class GameOfLifeModel {
 		for (int x = 0; x < _width; x++) {
 			for (int y = 0; y < _height; y++) {
 				// TODO: update the isTorus para 
-				int numOfAliveCells = numOfAliveCells(x, y, false);
+				int numOfAliveCells = numOfAliveCells(x, y, _isTorus);
 				// if the cell is alive, use survive condition
 				if (_cells[x][y]) {
 					if (numOfAliveCells <= _highSurviveThreshold &&

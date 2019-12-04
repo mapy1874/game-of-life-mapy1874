@@ -35,7 +35,7 @@ public class GameOfLifeController implements BoardViewListener, SettingViewListe
 		boardView.setView(e.getWidth(), e.getHeight());
 		model.setModel(e.getWidth(), e.getHeight(),
 				e.getLowBirthThreshold(), e.getHighBirthThreshold(),
-				e.getLowSurviveThreshold(), e.getHighSurviveThreshold());
+				e.getLowSurviveThreshold(), e.getHighSurviveThreshold(), e.IsTorus());
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class GameOfLifeController implements BoardViewListener, SettingViewListe
 		model.nextGen();
 	}
 	@Override
-	public void handleRandomlyGenerate(SettingViewEvent e) {
+	public void handleRandomlyGenerate() {
 		model.randomlyGenerate();
 	}
 

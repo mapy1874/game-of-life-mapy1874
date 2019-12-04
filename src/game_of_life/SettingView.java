@@ -67,9 +67,7 @@ public class SettingView extends JPanel implements ActionListener{
 	    setSizeSlider.setLabelTable(table1);
 	    setSizeSlider.setValue(50);
 
-		JLabel sizeLabel = new JLabel("Current size: 10*10");
 		setSizePanel.add(setSizeSlider);
-		setSizePanel.add(sizeLabel);
 		this.add(setSizePanel);
 		
 		// lifeDeathPanel
@@ -141,8 +139,7 @@ public class SettingView extends JPanel implements ActionListener{
 		togglePanel.add(startToggleButton);
 		togglePanel.add(torusToggleButton);
 		this.add(togglePanel);
-
-
+		
 		// remaining button
 		applyParasButton = new JButton("Apply the above settings");
 		applyParasButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -210,19 +207,14 @@ public class SettingView extends JPanel implements ActionListener{
 						highBirthThresholdSlider.getValue(),
 						lowSurviveThresholdSlider.getValue(),
 						highSurviveThresholdSlider.getValue(),
-						delaySlider.getValue()));
+						delaySlider.getValue(),
+						torusToggleButton.isSelected()));
 				System.out.println("SettingView: actionPerformed: apply  " +setSizeSlider.getValue());
 			}
 			break;
 		case "random":
 			for (SettingViewListener l : listeners) {
-				l.handleRandomlyGenerate(new SettingViewEvent(
-						setSizeSlider.getValue(),setSizeSlider.getValue(),
-						lowBirthThresholdSlider.getValue(), 
-						highBirthThresholdSlider.getValue(),
-						lowSurviveThresholdSlider.getValue(),
-						highSurviveThresholdSlider.getValue(),
-						delaySlider.getValue()));
+				l.handleRandomlyGenerate();
 				System.out.println("SettingView: actionPerformed: random  " +setSizeSlider.getValue());
 			}
 			break;

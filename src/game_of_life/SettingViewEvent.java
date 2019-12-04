@@ -12,11 +12,12 @@ public class SettingViewEvent {
 	// the cell live to next gen, by default, the lst = 2, hbt = 3;
 	private int _lowSurviveThreshold;
 	private int _highSurviveThreshold;
+	private boolean _isTorus;
 	// TODO: implement this after finish the basic part
 	private int _delay;
 
 	public SettingViewEvent(int width, int height, int lowBirthThreshold, int highBirthThreshold,
-			int lowSurviveThreshold, int highSurviveThreshold, int delay) {
+			int lowSurviveThreshold, int highSurviveThreshold, int delay, boolean isTorus) {
 		// TODO: Controller will verify the value of each parameter
 		_width = width;
 		_height = height;
@@ -26,6 +27,7 @@ public class SettingViewEvent {
 		_lowSurviveThreshold = lowSurviveThreshold;
 		_highSurviveThreshold = highSurviveThreshold;
 		_delay = delay;
+		_isTorus = isTorus;
 	}
 
 	public int getWidth() {
@@ -54,5 +56,9 @@ public class SettingViewEvent {
 
 	public int getDelay() {
 		return _delay;
+	}
+
+	public boolean IsTorus() {
+		return _isTorus;
 	}
 }
