@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.NumberFormatter;
 
 public class SettingView extends JPanel implements ActionListener{
@@ -67,6 +69,15 @@ public class SettingView extends JPanel implements ActionListener{
 	    setSizeSlider.setPaintLabels(true);
 	    setSizeSlider.setLabelTable(table1);
 	    setSizeSlider.setValue(50);
+	    setSizeSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!setSizeSlider.getValueIsAdjusting()) {
+					reminderLabel.setText("Size of the board£º " +setSizeSlider.getValue()
+					+ "*"+setSizeSlider.getValue());
+		        }				
+			}
+	    });
 
 	    setSizePanel.add(setSizeLabel);
 		setSizePanel.add(setSizeSlider);
@@ -86,27 +97,61 @@ public class SettingView extends JPanel implements ActionListener{
 		lowBirthThresholdSlider.setPaintLabels(true);
 	    lowBirthThresholdSlider.setLabelTable (table);
 	    lowBirthThresholdSlider.setValue(DEFAULT_LOW_BIRTH_THRESHOLD);
-	    
+	    lowBirthThresholdSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!lowBirthThresholdSlider.getValueIsAdjusting()) {
+					reminderLabel.setText("Low Birth Threshold£º " +lowBirthThresholdSlider.getValue());
+		        }				
+			}
+	    });
+
 		highBirthThresholdSlider = new JSlider(0, 8);
 		highBirthThresholdSlider.setPaintLabels(true);
 		highBirthThresholdSlider.setLabelTable (table);
 		highBirthThresholdSlider.setValue(DEFAULT_HIGH_BIRTH_THRESHOLD);
+		highBirthThresholdSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!highBirthThresholdSlider.getValueIsAdjusting()) {
+					reminderLabel.setText("High Birth Threshold£º " +highBirthThresholdSlider.getValue());
+		        }				
+			}
+	    });
+
 		
 		lowSurviveThresholdSlider = new JSlider(0, 8);
 		lowSurviveThresholdSlider.setPaintLabels(true);
 		lowSurviveThresholdSlider.setLabelTable (table);
 		lowSurviveThresholdSlider.setValue(DEFAULT_LOW_SURVIVE_THRESHOLD);
-		
+		lowSurviveThresholdSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!lowSurviveThresholdSlider.getValueIsAdjusting()) {
+					reminderLabel.setText("Low Survive Threshold£º " +lowSurviveThresholdSlider.getValue());
+		        }				
+			}
+	    });
+
 		highSurviveThresholdSlider = new JSlider(0, 8);
 		highSurviveThresholdSlider.setPaintLabels(true);
 		highSurviveThresholdSlider.setLabelTable (table);
 		highSurviveThresholdSlider.setValue(DEFAULT_HIGH_SURVIVE_THRESHOLD);
+		highSurviveThresholdSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!highSurviveThresholdSlider.getValueIsAdjusting()) {
+					reminderLabel.setText("High Survive Threshold£º " +highSurviveThresholdSlider.getValue());
+		        }				
+			}
+	    });
+
 
 		lifeDeathPanel.add(new JLabel("Low birth threshold: "));
 		lifeDeathPanel.add(lowBirthThresholdSlider);
 		lifeDeathPanel.add(new JLabel("High birth threshold: "));
 		lifeDeathPanel.add(highBirthThresholdSlider);
-		lifeDeathPanel.add(new JLabel("High survive threshold: "));
+		lifeDeathPanel.add(new JLabel("Low survive threshold: "));
 		lifeDeathPanel.add(lowSurviveThresholdSlider);
 		lifeDeathPanel.add(new JLabel("High survive threshold: "));
 		lifeDeathPanel.add(highSurviveThresholdSlider);
@@ -117,6 +162,13 @@ public class SettingView extends JPanel implements ActionListener{
 		togglePanel.setLayout(new FlowLayout());
 		torusToggleButton = new JToggleButton("Torus");
 		torusToggleButton.setAlignmentX(CENTER_ALIGNMENT);
+		torusToggleButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reminderLabel.setText("Torus mode£º " +torusToggleButton.isSelected());
+			}
+		});
+		
 		togglePanel.add(torusToggleButton);
 		this.add(togglePanel);
 		
@@ -140,6 +192,22 @@ public class SettingView extends JPanel implements ActionListener{
 	    delaySlider.setPaintLabels(true);
 	    delaySlider.setLabelTable (table2);
 	    delaySlider.setValue(DEFAULT_DELAY);
+	    delaySlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+		        if (!delaySlider.getValueIsAdjusting()) {
+					for (SettingViewListener l : listeners) {
+						l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+						if (startToggleButton.isSelected()) {
+							reminderLabel.setText("<html> Delay: " 
+									+delaySlider.getValue()+" ms</html>");
+						}
+						System.out.println("SettingView: stateChanged: stateChanged  " +setSizeSlider.getValue());
+					}
+		        }				
+			}
+	    });
+
 
 		startStopPanel.add(new JLabel("Delay(10-1000ms): "));
 		startStopPanel.add(delaySlider);
@@ -160,7 +228,8 @@ public class SettingView extends JPanel implements ActionListener{
 		this.add(restartButton);
 		
 		reminderLabel = new JLabel();
-		reminderLabel.setText("<html>Please randomly generate after applying<br>resizing to see the resizing functionality</html>");
+		reminderLabel.setText("<html> Welcome to mapy1874's Game Of Life<br>"+
+		"Remember to click APPLY button after finishing setting</html>");
 		reminderLabel.setAlignmentX(CENTER_ALIGNMENT);
 		this.add(reminderLabel);
 		// all related button will be listened and have related actionlistener
@@ -211,6 +280,10 @@ public class SettingView extends JPanel implements ActionListener{
 			break;
 		case "apply":
 			// extract the parameters and change the game
+			startToggleButton.setSelected(false);
+			for (SettingViewListener l : listeners) {
+				l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+			}
 			for (SettingViewListener l : listeners) {
 				l.handleSettingViewEvent(new SettingViewEvent(
 						setSizeSlider.getValue(),setSizeSlider.getValue(),
@@ -231,6 +304,19 @@ public class SettingView extends JPanel implements ActionListener{
 			}
 			break;
 		case "random":
+			// stop the auto start first so the function can clear the board fully
+			startToggleButton.setSelected(false);
+			for (SettingViewListener l : listeners) {
+				l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+			}
+			// not sure why, but this will clear the board fully
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			for (SettingViewListener l : listeners) {
 				l.handleRandomlyGenerate();
 				reminderLabel.setText("Randomly generated successfully!");
@@ -238,9 +324,19 @@ public class SettingView extends JPanel implements ActionListener{
 			}
 			break;
 		case "restart":
+			startToggleButton.setSelected(false);
+			for (SettingViewListener l : listeners) {
+				l.handleAutoStart(startToggleButton.isSelected(), delaySlider.getValue());
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			for (SettingViewListener l : listeners) {
 				l.handleRestart();
-				reminderLabel.setText("Clear the game successfully!");
+				reminderLabel.setText("<html>Clear the game successfully!<br> Auto start released.</html>");
 				System.out.println("SettingView: actionPerformed: handleRestart  " +setSizeSlider.getValue());
 			}
 			break;
